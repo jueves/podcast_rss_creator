@@ -37,6 +37,16 @@ else:
     args.audiourl = "http://" + server_ip + "/podcasts/" + args.filename
 
 # Define label strings
+title_label = '    <item>\n      <title>'
+link_label = '</title>\n      <link>'
+description_label = '</link>\n      <description>'
+audio_url_label = '</description>\n      <enclosure url="'
+audio_type_label = '" type="'
+pubDate_label = '" />\n      <pubDate>'
+end_podcast_label = '</pubDate>\n    </item>'
+
+
+'''
 title_label = '            {\n               "title": '
 link_label = ',\n               "link": '
 description_label = ',\n               "description": '
@@ -44,10 +54,17 @@ audio_url_label = ',\n               "enclosure": {\n                  "_url": '
 audio_type_label = ',\n                  "_type": '
 pubDate_label = '\n               },\n               "pubDate": '
 end_podcast_label = '\n            },\n'
+'''
 
 # Load current podcasts
 with open(json_file) as f:
     podcasts_list = json.load(f)
+
+
+def format_date(date_str):
+    date = datetime.datetime.strptime(date_str, "%d/%m/%Y %H:%M")
+    formated_date = date.strftime("%a, %d %b %Y %H:%M:%S %Z")
+    return(formated_date)
 
 # Add new podcast
 new_podcast = {
@@ -56,7 +73,7 @@ new_podcast = {
     'description': args.description,
     'audio_url': args.audiourl,
     'audio_type': args.audiotype,
-    'pubDate': args.pubDate
+    'pubDate': format_date(args.pubDate)
 }
 
 podcasts_list.append(new_podcast)

@@ -1,11 +1,11 @@
-{
-   "rss": {
-      "channel": {
-         "title": "Varios sueltos",
-         "description": "Audios sueltos que cuelgo en mi servidor. Normalmente son capítulos específicos de podcasts que en principio no pretendo seguir.",
-         "image": {
-            "title": "Varios sueltos",
-            "url": "http://10.69.0.3/podcast.jpg",
-            "link": "http://10.69.0.3/podcasts/"
-         },
-         "item": [
+<?xml version="1.0" encoding="UTF-8"?>
+<rss>
+  <channel>
+    <title>Varios sueltos</title>
+    <description>Audios sueltos que cuelgo en mi servidor. Normalmente son capítulos específicos de podcasts que en principio no pretendo seguir.</description>
+    <image>
+      <title>Varios sueltos</title>
+      <url>http://10.69.0.3/podcast.jpg</url>
+      <link>http://10.69.0.3/podcasts/</link>
+    </image>
+# Contenidos
