@@ -6,7 +6,7 @@ import os
 json_file = "podcasts.json"
 header_file = "header.rss"
 footer_file = "footer.rss"
-rss_file = "podcasts.rss"
+rss_file = "html/podcasts.rss"
 server_ip = "10.69.0.3"
 
 parser = argparse.ArgumentParser(
@@ -61,6 +61,10 @@ new_podcast = {
 
 podcasts_list.append(new_podcast)
 
+# Save updated podcasts list
+with open(json_file, "w") as f:
+    json_podcasts = json.dumps(podcasts_list)
+    f.write(json_podcasts)
 
 # Load header and footer
 with open(header_file) as f:
@@ -84,22 +88,9 @@ for podcast in podcasts_list:
              end_podcast_label
              ])
     
-'''
-    rss = rss + title_label + podcast['title'],
-    rss = rss + link_label + podcast['link'],
-    rss = rss + description_label + podcast['description']
-    rss = rss + audio_url_label + podcast['audio_url']
-    rss = rss + audio_type_label + podcast['audio_type']
-    rss = rss + pubDate_label + podcast['pubDate']
-    print("Fin de bucle")
-
-'''
-    
+ 
 ## Add footer
 rss = rss + footer
-
-print("Lass rss type:")
-print(type(rss))
 
 ## Write file
 with open(rss_file, "w") as f:
