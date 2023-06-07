@@ -1,7 +1,7 @@
-import argparse
 import datetime
 import json
 import os
+import sys
 
 json_file = "podcasts.json"
 header_file = "header.rss"
@@ -9,32 +9,28 @@ footer_file = "footer.rss"
 rss_file = "html/podcasts.rss"
 server_ip = "10.69.0.3"
 
-parser = argparse.ArgumentParser(
-    prog="Podcast RSS Creator",
-    description="Adds a new podcast entry in the RSS for a given audio file."
-    )
-parser.add_argument("filename", help="Audio file name")
-parser.add_argument("-t", "--title", help = "Podcast chapter title", default="none")
-parser.add_argument("-l", "--link", help = "Podcast chapter URL (not audio URL)", default="none")
-parser.add_argument("-d", "--description", help = "Podcast chapter description", default="none")
-parser.add_argument("--audiourl", default = "none")
-parser.add_argument("--audiotype", help = "File type, defaults to 'audio/mpeg'", default="audio/mpeg")
-parser.add_argument("--pubDate", help = "Date in which the podcast chapter was released in the format:\
-                     23/03/2023 19:00. Defaults to current date and time.",
-                    default=datetime.datetime.now().strftime("%d/%m/%Y %H:%M"))
+file_name = sys.argv[0]
+# Standard Input
+print("Introduce metadatos sobre el capítulo. \n" + 
+      "Si se deja en blanco estos serán asignados automáticamente.")
+chapter_title = input("Título: ")
+chapter_link = input("URL info: ")
+chapter_description = input("Descripción: ")
+chapter_audioURL = input("URL audio: ")
+chapter_audioType = input("Tipo de archivo: ") or "audio/mpeg"
+chapter_pubDate = input("Fecha de publicación: ") or datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
 
-args = parser.parse_args()
 
 # Set default title
-if (args.title == "none"):
-    args.title = args.filename
+if (chapter_title == "none"):
+    chapter_title = file_name
 
 # Set proper audio url
-if args.filename[:4] == "http":
-    args.audiourl = args.filename
+if file_name[:4] == "http":
+    chapter_audioURL = file_name
 else:
-    os.rename(args.filename, "html/podcasts/" + args.filename)
-    args.audiourl = "http://" + server_ip + "/podcasts/" + args.filename
+    os.rename(file_name, "html/podcasts/" + file_name)
+    chapter_audioURL = "http://" + server_ip + "/podcasts/" + file_name
 
 # Define label strings
 title_label = '\n    <item>\n      <title>'
@@ -56,12 +52,12 @@ def format_date(date_str):
 
 # Add new podcast
 new_podcast = {
-    'title': args.title,
-    'link': args.link,
-    'description': args.description,
-    'audio_url': args.audiourl,
-    'audio_type': args.audiotype,
-    'pubDate': format_date(args.pubDate)
+    'title': chapter_title,
+    'link': chapter_link,
+    'description': chapter_description,
+    'audio_url': chapter_audioURL,
+    'audio_type': chapter_audioType,
+    'pubDate': format_date(chapter_pubDate)
 }
 
 podcasts_list.append(new_podcast)
